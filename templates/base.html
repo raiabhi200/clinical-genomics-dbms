@@ -1,0 +1,323 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}Clinical Genomics{% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" role="img">
+                    <path
+                        d="M16 5c10 5 16 10 16 19S26 38 16 43"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                    />
+                    <path
+                        d="M32 5C22 10 16 15 16 24s6 14 16 19"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                    />
+                    <path
+                        d="M20 11h8M17 17h14M16 24h16M17 31h14M20 37h8"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                    />
+                </svg>
+            </div>
+
+            <div>
+                <div class="brand-title">
+                    Clinical Genomics
+                </div>
+
+                <div class="brand-caption">
+                    Precision Medicine
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Main navigation -->
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-title">
+                Workspace
+            </div>
+
+            <a
+                class="nav-item {% if request.endpoint == 'home' %}active{% endif %}"
+                href="{{ url_for('home') }}"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                class="nav-item {% if request.endpoint in ['patients', 'edit_patient'] %}active{% endif %}"
+                href="{{ url_for('patients') }}"
+            >
+                <span class="nav-icon">P</span>
+                <span>Patients</span>
+
+                <span class="nav-count">
+                    {{ nav_counts.patients }}
+                </span>
+            </a>
+
+            <a
+                class="nav-item {% if request.endpoint in ['samples', 'edit_sample'] %}active{% endif %}"
+                href="{{ url_for('samples') }}"
+            >
+                <span class="nav-icon">S</span>
+                <span>Samples</span>
+
+                <span class="nav-count">
+                    {{ nav_counts.samples }}
+                </span>
+            </a>
+
+            <a
+                class="nav-item {% if request.endpoint in ['sequencing_runs', 'edit_sequencing_run'] %}active{% endif %}"
+                href="{{ url_for('sequencing_runs') }}"
+            >
+                <span class="nav-icon">R</span>
+                <span>Sequencing Runs</span>
+
+                <span class="nav-count">
+                    {{ nav_counts.runs }}
+                </span>
+            </a>
+
+
+            <div class="nav-section-title">
+                Genomics
+            </div>
+
+            <a
+                class="nav-item {% if request.endpoint in ['genes', 'edit_gene'] %}active{% endif %}"
+                href="{{ url_for('genes') }}"
+            >
+                <span class="nav-icon">G</span>
+                <span>Genes</span>
+
+                <span class="nav-count">
+                    {{ nav_counts.genes }}
+                </span>
+            </a>
+
+            <a
+                class="nav-item {% if request.endpoint in ['variants', 'edit_variant'] %}active{% endif %}"
+                href="{{ url_for('variants') }}"
+            >
+                <span class="nav-icon">V</span>
+                <span>Variants</span>
+
+                <span class="nav-count">
+                    {{ nav_counts.variants }}
+                </span>
+            </a>
+
+            <a
+                class="nav-item {% if request.endpoint in ['sample_variants', 'edit_sample_variant'] %}active{% endif %}"
+                href="{{ url_for('sample_variants') }}"
+            >
+                <span class="nav-icon">SV</span>
+                <span>Sample Variants</span>
+            </a>
+
+            <a
+                class="nav-item {% if request.endpoint in ['clinical_annotations', 'edit_clinical_annotation'] %}active{% endif %}"
+                href="{{ url_for('clinical_annotations') }}"
+            >
+                <span class="nav-icon">A</span>
+                <span>Annotations</span>
+            </a>
+
+
+            <div class="nav-section-title">
+                Insights
+            </div>
+
+            <a
+                class="nav-item {% if request.endpoint in ['diagnoses', 'edit_diagnosis'] %}active{% endif %}"
+                href="{{ url_for('diagnoses') }}"
+            >
+                <span class="nav-icon">D</span>
+                <span>Diagnoses</span>
+            </a>
+
+            <a
+                class="nav-item {% if request.endpoint == 'reports' %}active{% endif %}"
+                href="{{ url_for('reports') }}"
+            >
+                <span class="nav-icon">↗</span>
+                <span>Reports</span>
+            </a>
+
+        </nav>
+
+
+        <!-- Sidebar bottom -->
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>Local workspace</strong>
+                    <small>MySQL + Flask</small>
+                </div>
+
+            </div>
+
+            <div class="sidebar-footer">
+                Academic DBMS Project
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN APPLICATION AREA
+    ========================== -->
+
+    <div class="main-shell">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <div class="mobile-brand">
+                    <span class="mobile-brand-mark">CG</span>
+                    <span>Clinical Genomics</span>
+                </div>
+
+                <div class="topbar-page-label">
+                    {% block page_label %}
+                    Clinical Genomics Workspace
+                    {% endblock %}
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="workspace-badge">
+                    <span class="workspace-dot"></span>
+                    Academic Dataset
+                </div>
+
+                <div class="user-badge">
+                    <span class="user-avatar">A</span>
+                    <span>Admin</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             PAGE CONTENT
+        ========================== -->
+
+        <main class="content-area">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    <div class="flash-wrap">
+
+                        {% for category, message in messages %}
+
+                            <div class="flash {{ category }}">
+
+                                <span class="flash-icon">
+                                    {% if category == 'success' %}
+                                        ✓
+                                    {% else %}
+                                        !
+                                    {% endif %}
+                                </span>
+
+                                <span>
+                                    {{ message }}
+                                </span>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            {% block content %}
+            {% endblock %}
+
+        </main>
+
+
+        <!-- FOOTER -->
+
+        <footer class="site-footer">
+
+            <div>
+                Clinical Genomics · Precision Medicine Database
+            </div>
+
+            <div>
+                Synthetic Academic Dataset
+            </div>
+
+        </footer>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>

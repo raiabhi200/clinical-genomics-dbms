@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Error{% endblock %}
+{% block content %}
+<section class="empty-page"><div class="eyebrow">system response</div><h1>{{ message }}</h1><p>Return to the dashboard and continue working with the connected database.</p><a class="button" href="{{ url_for('home') }}">Back to Dashboard</a></section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Edit Patient{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">update record</div><h1>Edit Patient {{ patient.patient_code }}</h1></div></section>
+<section class="panel form-panel"><form method="POST" class="form-grid">
+<div class="field"><label>Patient Code</label><input name="patient_code" value="{{ patient.patient_code }}" required></div>
+<div class="field"><label>Age</label><input type="number" name="age" value="{{ patient.age }}" min="0" max="120" required></div>
+<div class="field"><label>Sex</label><select name="sex" required>{% for value in ['Male','Female','Other'] %}<option {% if patient.sex == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field"><label>Diagnosis</label><select name="diagnosis_id" required>{% for diagnosis in diagnoses %}<option value="{{ diagnosis.diagnosis_id }}" {% if patient.diagnosis_id == diagnosis.diagnosis_id %}selected{% endif %}>{{ diagnosis.disease_name }}</option>{% endfor %}</select></div>
+<div class="field"><label>Registration Date</label><input type="date" name="registration_date" value="{{ patient.registration_date }}" required></div>
+<div class="field align-end"><button class="button" type="submit">Save Changes</button><a class="button ghost" href="{{ url_for('patients') }}">Cancel</a></div>
+</form></section>
+{% endblock %}

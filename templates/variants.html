@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Variants{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">gene-linked records</div><h1>Variants</h1><p>Store genomic variant coordinates and clinical significance.</p></div></section>
+<section class="panel form-panel"><h2>Add Variant</h2>
+<form method="POST" class="form-grid wide">
+<div class="field"><label>Gene</label><select name="gene_id" required><option value="">Select gene</option>{% for gene in genes %}<option value="{{ gene.gene_id }}">{{ gene.gene_symbol }}</option>{% endfor %}</select></div>
+<div class="field"><label>Chromosome</label><input name="chromosome" placeholder="17" required></div>
+<div class="field"><label>Position</label><input type="number" name="position" min="1" placeholder="43045700" required></div>
+<div class="field"><label>Reference</label><input name="reference_allele" maxlength="10" placeholder="A" required></div>
+<div class="field"><label>Alternate</label><input name="alternate_allele" maxlength="10" placeholder="G" required></div>
+<div class="field"><label>Variant Type</label><select name="variant_type" required><option value="">Select</option><option>SNV</option><option>Insertion</option><option>Deletion</option><option>Indel</option></select></div>
+<div class="field"><label>Clinical Significance</label><select name="clinical_significance" required><option value="">Select</option><option>Pathogenic</option><option>Likely Pathogenic</option><option>VUS</option><option>Likely Benign</option><option>Benign</option></select></div>
+<div class="field align-end"><button class="button" type="submit">Add Variant</button></div>
+</form></section>
+<section class="panel"><div class="table-heading"><h2>Variant Records</h2><span>{{ variants|length }} records</span></div>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Gene</th><th>Chr</th><th>Position</th><th>Ref</th><th>Alt</th><th>Type</th><th>Significance</th><th>Actions</th></tr></thead>
+<tbody>{% for row in variants %}<tr><td>{{ row.variant_id }}</td><td>{{ row.gene_symbol or '—' }}</td><td>{{ row.chromosome }}</td><td>{{ row.position }}</td><td>{{ row.reference_allele }}</td><td>{{ row.alternate_allele }}</td><td>{{ row.variant_type }}</td><td><span class="tag">{{ row.clinical_significance }}</span></td><td class="actions"><a class="link" href="{{ url_for('edit_variant', variant_id=row.variant_id) }}">Edit</a><form method="POST" action="{{ url_for('delete_variant', variant_id=row.variant_id) }}" class="inline-form" data-confirm="Delete this variant? Linked sample records or annotations may prevent deletion."><button class="link danger" type="submit">Delete</button></form></td></tr>{% else %}<tr><td colspan="9" class="empty">No variants yet.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Sequencing Runs{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">1 : N from samples</div><h1>Sequencing Runs</h1><p>Record sequencing platform, run date, read count and QC result.</p></div></section>
+<section class="panel form-panel"><h2>Add Sequencing Run</h2>
+<form method="POST" class="form-grid">
+<div class="field"><label>Sample</label><select name="sample_id" required><option value="">Select sample</option>{% for sample in samples %}<option value="{{ sample.sample_id }}">Sample {{ sample.sample_id }} · {{ sample.patient_code }}</option>{% endfor %}</select></div>
+<div class="field"><label>Platform</label><select name="platform" required><option value="">Select</option><option>Illumina</option><option>Oxford Nanopore</option><option>PacBio</option></select></div>
+<div class="field"><label>Run Date</label><input type="date" name="run_date" required></div>
+<div class="field"><label>Read Count</label><input type="number" name="read_count" min="0" placeholder="50000000" required></div>
+<div class="field"><label>QC Status</label><select name="qc_status" required><option value="">Select</option><option>Passed</option><option>Failed</option><option>Pending</option></select></div>
+<div class="field align-end"><button class="button" type="submit">Add Run</button></div>
+</form></section>
+<section class="panel"><div class="table-heading"><h2>Sequencing Records</h2><span>{{ runs|length }} records</span></div>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Sample</th><th>Patient</th><th>Platform</th><th>Run Date</th><th>Reads</th><th>QC</th><th>Actions</th></tr></thead>
+<tbody>{% for row in runs %}<tr><td>{{ row.run_id }}</td><td>{{ row.sample_id }}</td><td>{{ row.patient_code }}</td><td>{{ row.platform }}</td><td>{{ row.run_date }}</td><td>{{ row.read_count }}</td><td><span class="tag">{{ row.qc_status }}</span></td><td class="actions"><a class="link" href="{{ url_for('edit_sequencing_run', run_id=row.run_id) }}">Edit</a><form method="POST" action="{{ url_for('delete_sequencing_run', run_id=row.run_id) }}" class="inline-form" data-confirm="Delete this sequencing run?"><button class="link danger" type="submit">Delete</button></form></td></tr>{% else %}<tr><td colspan="8" class="empty">No sequencing runs yet.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

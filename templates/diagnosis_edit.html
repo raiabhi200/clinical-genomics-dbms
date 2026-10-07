@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Edit Diagnosis{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">update record</div><h1>Edit Diagnosis</h1></div></section>
+<section class="panel form-panel"><form method="POST" class="form-grid">
+<div class="field"><label>Disease Name</label><input name="disease_name" value="{{ diagnosis.disease_name }}" required></div>
+<div class="field"><label>Disease Category</label><input name="disease_category" value="{{ diagnosis.disease_category }}" required></div>
+<div class="field align-end"><button class="button" type="submit">Save Changes</button><a class="button ghost" href="{{ url_for('diagnoses') }}">Cancel</a></div>
+</form></section>
+{% endblock %}

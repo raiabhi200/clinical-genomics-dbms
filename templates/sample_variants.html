@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Sample Variants{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">many : many bridge</div><h1>Sample Variants</h1><p>Link samples to variants and store allele-level measurements.</p></div></section>
+<section class="panel form-panel"><h2>Add Sample-Variant Link</h2>
+<form method="POST" class="form-grid">
+<div class="field"><label>Sample</label><select name="sample_id" required><option value="">Select sample</option>{% for sample in samples %}<option value="{{ sample.sample_id }}">Sample {{ sample.sample_id }}</option>{% endfor %}</select></div>
+<div class="field"><label>Variant</label><select name="variant_id" required><option value="">Select variant</option>{% for variant in variants %}<option value="{{ variant.variant_id }}">Variant {{ variant.variant_id }} · chr{{ variant.chromosome }}:{{ variant.position }}</option>{% endfor %}</select></div>
+<div class="field"><label>Allele Frequency</label><input type="number" name="allele_frequency" min="0" max="100" step="0.01" placeholder="50.00" required></div>
+<div class="field"><label>Depth</label><input type="number" name="depth" min="0" placeholder="120" required></div>
+<div class="field"><label>Zygosity</label><select name="zygosity" required><option value="">Select</option><option>Heterozygous</option><option>Homozygous</option><option>Hemizygous</option></select></div>
+<div class="field align-end"><button class="button" type="submit">Add Link</button></div>
+</form></section>
+<section class="panel"><div class="table-heading"><h2>Sample-Variant Records</h2><span>{{ sample_variants|length }} records</span></div>
+<div class="table-wrap"><table><thead><tr><th>Sample</th><th>Variant</th><th>Patient</th><th>Coordinate</th><th>AF</th><th>Depth</th><th>Zygosity</th><th>Actions</th></tr></thead><tbody>
+{% for row in sample_variants %}<tr><td>{{ row.sample_id }}</td><td>{{ row.variant_id }}</td><td>{{ row.patient_code }}</td><td>chr{{ row.chromosome }}:{{ row.position }}</td><td>{{ row.allele_frequency }}</td><td>{{ row.depth }}</td><td>{{ row.zygosity }}</td><td class="actions"><a class="link" href="{{ url_for('edit_sample_variant', sample_id=row.sample_id, variant_id=row.variant_id) }}">Edit</a><form method="POST" action="{{ url_for('delete_sample_variant', sample_id=row.sample_id, variant_id=row.variant_id) }}" class="inline-form" data-confirm="Delete this sample-variant link?"><button class="link danger" type="submit">Delete</button></form></td></tr>{% else %}<tr><td colspan="8" class="empty">No sample-variant links yet.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

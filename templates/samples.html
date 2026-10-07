@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Samples{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">1 : N from patients</div><h1>Samples</h1><p>Track collected biological samples and sequencing status.</p></div></section>
+<section class="panel form-panel"><h2>Add New Sample</h2>
+<form method="POST" class="form-grid">
+<div class="field"><label>Patient</label><select name="patient_id" required><option value="">Select patient</option>{% for patient in patients %}<option value="{{ patient.patient_id }}">{{ patient.patient_code }}</option>{% endfor %}</select></div>
+<div class="field"><label>Sample Type</label><select name="sample_type" required><option value="">Select</option><option>Blood</option><option>Tissue</option><option>Saliva</option><option>Bone Marrow</option><option>Buccal Swab</option></select></div>
+<div class="field"><label>Collection Date</label><input type="date" name="collection_date" required></div>
+<div class="field"><label>Sequencing Status</label><select name="sequencing_status" required><option value="">Select</option><option>Pending</option><option>Ready</option><option>Completed</option><option>Failed</option></select></div>
+<div class="field align-end"><button class="button" type="submit">Add Sample</button></div>
+</form></section>
+<section class="panel"><div class="table-heading"><h2>Sample Records</h2><span>{{ samples|length }} records</span></div>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Patient</th><th>Type</th><th>Collection</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody>{% for row in samples %}<tr><td>{{ row.sample_id }}</td><td>{{ row.patient_code }}</td><td>{{ row.sample_type }}</td><td>{{ row.collection_date }}</td><td><span class="tag">{{ row.sequencing_status }}</span></td><td class="actions"><a class="link" href="{{ url_for('edit_sample', sample_id=row.sample_id) }}">Edit</a><form method="POST" action="{{ url_for('delete_sample', sample_id=row.sample_id) }}" class="inline-form" data-confirm="Delete this sample?"><button class="link danger" type="submit">Delete</button></form></td></tr>{% else %}<tr><td colspan="6" class="empty">No samples yet.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

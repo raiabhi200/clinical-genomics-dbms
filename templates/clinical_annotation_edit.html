@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Edit Annotation{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">update record</div><h1>Edit Clinical Annotation {{ annotation.annotation_id }}</h1></div></section>
+<section class="panel form-panel"><form method="POST" class="form-grid">
+<div class="field"><label>Variant</label><select name="variant_id" required>{% for v in variants %}<option value="{{ v.variant_id }}" {% if annotation.variant_id == v.variant_id %}selected{% endif %}>Variant {{ v.variant_id }} · chr{{ v.chromosome }}:{{ v.position }}</option>{% endfor %}</select></div>
+<div class="field"><label>Evidence Level</label><select name="evidence_level" required>{% for value in ['Strong','Moderate','Limited','Expert Consensus'] %}<option {% if annotation.evidence_level == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field"><label>Condition</label><input name="condition" value="{{ annotation.condition }}" required></div>
+<div class="field"><label>Source Database</label><select name="source_database" required>{% for value in ['ClinVar','OMIM','OncoKB','gnomAD','Literature'] %}<option {% if annotation.source_database == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field"><label>Interpretation Date</label><input type="date" name="interpretation_date" value="{{ annotation.interpretation_date }}" required></div>
+<div class="field align-end"><button class="button" type="submit">Save Changes</button><a class="button ghost" href="{{ url_for('clinical_annotations') }}">Cancel</a></div>
+</form></section>
+{% endblock %}

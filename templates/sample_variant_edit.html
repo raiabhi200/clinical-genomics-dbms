@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Edit Sample Variant{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">update relationship</div><h1>Edit Sample {{ sample_variant.sample_id }} · Variant {{ sample_variant.variant_id }}</h1></div></section>
+<section class="panel form-panel"><form method="POST" class="form-grid"><div class="field"><label>Allele Frequency</label><input type="number" name="allele_frequency" value="{{ sample_variant.allele_frequency }}" min="0" max="100" step="0.01" required></div><div class="field"><label>Depth</label><input type="number" name="depth" value="{{ sample_variant.depth }}" min="0" required></div><div class="field"><label>Zygosity</label><select name="zygosity" required>{% for value in ['Heterozygous','Homozygous','Hemizygous'] %}<option {% if sample_variant.zygosity == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div><div class="field align-end"><button class="button" type="submit">Save Changes</button><a class="button ghost" href="{{ url_for('sample_variants') }}">Cancel</a></div></form></section>
+{% endblock %}

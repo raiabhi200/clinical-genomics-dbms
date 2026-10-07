@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Edit Sequencing Run{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">update record</div><h1>Edit Sequencing Run {{ run.run_id }}</h1></div></section>
+<section class="panel form-panel"><form method="POST" class="form-grid">
+<div class="field"><label>Sample</label><select name="sample_id" required>{% for s in samples %}<option value="{{ s.sample_id }}" {% if run.sample_id == s.sample_id %}selected{% endif %}>Sample {{ s.sample_id }} · {{ s.patient_code }}</option>{% endfor %}</select></div>
+<div class="field"><label>Platform</label><select name="platform" required>{% for value in ['Illumina','Oxford Nanopore','PacBio'] %}<option {% if run.platform == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field"><label>Run Date</label><input type="date" name="run_date" value="{{ run.run_date }}" required></div>
+<div class="field"><label>Read Count</label><input type="number" name="read_count" value="{{ run.read_count }}" min="0" required></div>
+<div class="field"><label>QC Status</label><select name="qc_status" required>{% for value in ['Passed','Failed','Pending'] %}<option {% if run.qc_status == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field align-end"><button class="button" type="submit">Save Changes</button><a class="button ghost" href="{{ url_for('sequencing_runs') }}">Cancel</a></div>
+</form></section>
+{% endblock %}

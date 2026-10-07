@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Edit Variant{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">update record</div><h1>Edit Variant {{ variant.variant_id }}</h1></div></section>
+<section class="panel form-panel"><form method="POST" class="form-grid wide">
+<div class="field"><label>Gene</label><select name="gene_id" required>{% for g in genes %}<option value="{{ g.gene_id }}" {% if variant.gene_id == g.gene_id %}selected{% endif %}>{{ g.gene_symbol }}</option>{% endfor %}</select></div>
+<div class="field"><label>Chromosome</label><input name="chromosome" value="{{ variant.chromosome }}" required></div>
+<div class="field"><label>Position</label><input type="number" name="position" value="{{ variant.position }}" required></div>
+<div class="field"><label>Reference</label><input name="reference_allele" value="{{ variant.reference_allele }}" required></div>
+<div class="field"><label>Alternate</label><input name="alternate_allele" value="{{ variant.alternate_allele }}" required></div>
+<div class="field"><label>Variant Type</label><select name="variant_type" required>{% for value in ['SNV','Insertion','Deletion','Indel'] %}<option {% if variant.variant_type == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field"><label>Clinical Significance</label><select name="clinical_significance" required>{% for value in ['Pathogenic','Likely Pathogenic','VUS','Likely Benign','Benign'] %}<option {% if variant.clinical_significance == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field align-end"><button class="button" type="submit">Save Changes</button><a class="button ghost" href="{{ url_for('variants') }}">Cancel</a></div>
+</form></section>
+{% endblock %}

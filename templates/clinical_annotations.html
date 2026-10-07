@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Clinical Annotations{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">variant interpretation</div><h1>Clinical Annotations</h1><p>Attach evidence, condition and interpretation source to variants.</p></div></section>
+<section class="panel form-panel"><h2>Add Annotation</h2>
+<form method="POST" class="form-grid">
+<div class="field"><label>Variant</label><select name="variant_id" required><option value="">Select variant</option>{% for variant in variants %}<option value="{{ variant.variant_id }}">Variant {{ variant.variant_id }} · chr{{ variant.chromosome }}:{{ variant.position }}</option>{% endfor %}</select></div>
+<div class="field"><label>Evidence Level</label><select name="evidence_level" required><option value="">Select</option><option>Strong</option><option>Moderate</option><option>Limited</option><option>Expert Consensus</option></select></div>
+<div class="field"><label>Condition</label><input name="condition" maxlength="100" placeholder="Breast cancer" required></div>
+<div class="field"><label>Source Database</label><select name="source_database" required><option value="">Select</option><option>ClinVar</option><option>OMIM</option><option>OncoKB</option><option>gnomAD</option><option>Literature</option></select></div>
+<div class="field"><label>Interpretation Date</label><input type="date" name="interpretation_date" required></div>
+<div class="field align-end"><button class="button" type="submit">Add Annotation</button></div>
+</form></section>
+<section class="panel"><div class="table-heading"><h2>Annotation Records</h2><span>{{ annotations|length }} records</span></div>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Variant</th><th>Gene</th><th>Evidence</th><th>Condition</th><th>Source</th><th>Date</th><th>Actions</th></tr></thead><tbody>
+{% for row in annotations %}<tr><td>{{ row.annotation_id }}</td><td>{{ row.variant_id }}</td><td>{{ row.gene_symbol or '—' }}</td><td><span class="tag">{{ row.evidence_level }}</span></td><td>{{ row.condition }}</td><td>{{ row.source_database }}</td><td>{{ row.interpretation_date }}</td><td class="actions"><a class="link" href="{{ url_for('edit_clinical_annotation', annotation_id=row.annotation_id) }}">Edit</a><form method="POST" action="{{ url_for('delete_clinical_annotation', annotation_id=row.annotation_id) }}" class="inline-form" data-confirm="Delete this annotation?"><button class="link danger" type="submit">Delete</button></form></td></tr>{% else %}<tr><td colspan="8" class="empty">No clinical annotations yet.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

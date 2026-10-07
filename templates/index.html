@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Clinical Genomics{% endblock %}
+{% block content %}
+<section class="hero">
+<div>
+<div class="eyebrow">clinical data workspace</div>
+<h1>Clinical Genomics &amp;<br>Precision Medicine</h1>
+<p>Manage synthetic patient, sample, sequencing, gene, variant and clinical annotation records from one simple relational database interface.</p>
+</div>
+<div class="hero-note">mysql<br>flask<br>relational dbms</div>
+</section>
+<section class="section-heading"><div><h2>System overview</h2><p>Current records in the connected MySQL database.</p></div></section>
+<section class="stats-grid">
+<a class="stat-card" href="{{ url_for('patients') }}"><span>Patients</span><strong>{{ counts.patients }}</strong></a>
+<a class="stat-card" href="{{ url_for('samples') }}"><span>Samples</span><strong>{{ counts.samples }}</strong></a>
+<a class="stat-card" href="{{ url_for('sequencing_runs') }}"><span>Sequencing Runs</span><strong>{{ counts.runs }}</strong></a>
+<a class="stat-card" href="{{ url_for('genes') }}"><span>Genes</span><strong>{{ counts.genes }}</strong></a>
+<a class="stat-card" href="{{ url_for('variants') }}"><span>Variants</span><strong>{{ counts.variants }}</strong></a>
+<a class="stat-card" href="{{ url_for('variants') }}"><span>Pathogenic Variants</span><strong>{{ counts.pathogenic }}</strong></a>
+<a class="stat-card" href="{{ url_for('sequencing_runs') }}"><span>QC Passed Runs</span><strong>{{ counts.qc_passed }}</strong></a>
+<a class="stat-card accent" href="{{ url_for('reports') }}"><span>Reports</span><strong>→</strong></a>
+</section>
+<section class="quick-grid">
+<div class="panel"><h3>Workflow</h3><p>Build records through the website. Flask receives the form and writes the record to MySQL through a foreign-key-aware relational schema.</p><div class="workflow"><span>form</span><b>→</b><span>flask</span><b>→</b><span>mysql</span></div></div>
+<div class="panel"><h3>DBMS concepts</h3><p>Demonstrate primary keys, foreign keys, JOINs, aggregate functions, GROUP BY, HAVING, composite keys and subqueries.</p><a class="button secondary" href="{{ url_for('reports') }}">Open reports</a></div>
+</section>
+{% endblock %}

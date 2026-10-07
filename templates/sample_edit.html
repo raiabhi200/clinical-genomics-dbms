@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Edit Sample{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">update record</div><h1>Edit Sample {{ sample.sample_id }}</h1></div></section>
+<section class="panel form-panel"><form method="POST" class="form-grid">
+<div class="field"><label>Patient</label><select name="patient_id" required>{% for p in patients %}<option value="{{ p.patient_id }}" {% if sample.patient_id == p.patient_id %}selected{% endif %}>{{ p.patient_code }}</option>{% endfor %}</select></div>
+<div class="field"><label>Sample Type</label><select name="sample_type" required>{% for value in ['Blood','Tissue','Saliva','Bone Marrow','Buccal Swab'] %}<option {% if sample.sample_type == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field"><label>Collection Date</label><input type="date" name="collection_date" value="{{ sample.collection_date }}" required></div>
+<div class="field"><label>Sequencing Status</label><select name="sequencing_status" required>{% for value in ['Pending','Ready','Completed','Failed'] %}<option {% if sample.sequencing_status == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+<div class="field align-end"><button class="button" type="submit">Save Changes</button><a class="button ghost" href="{{ url_for('samples') }}">Cancel</a></div>
+</form></section>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Edit Gene{% endblock %}
+{% block content %}
+<section class="section-heading"><div><div class="eyebrow">update record</div><h1>Edit Gene {{ gene.gene_symbol }}</h1></div></section>
+<section class="panel form-panel"><form method="POST" class="form-grid"><div class="field"><label>Gene Symbol</label><input name="gene_symbol" value="{{ gene.gene_symbol }}" required></div><div class="field"><label>Gene Name</label><input name="gene_name" value="{{ gene.gene_name }}" required></div><div class="field"><label>Chromosome</label><input name="chromosome" value="{{ gene.chromosome }}" required></div><div class="field align-end"><button class="button" type="submit">Save Changes</button><a class="button ghost" href="{{ url_for('genes') }}">Cancel</a></div></form></section>
+{% endblock %}
